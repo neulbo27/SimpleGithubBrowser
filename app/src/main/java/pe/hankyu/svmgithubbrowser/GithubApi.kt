@@ -6,7 +6,7 @@ import retrofit2.http.Query
 
 class GithubApi {
     interface GithubApiImpl {
-        @GET("/users")
+        @GET("/users?client_id=" + Global.clientId + "&client_secret=" + Global.clientSecret)
         fun getUserList(@Query("since") since: String): Observable<List<GithubUserModel>>
     }
 
