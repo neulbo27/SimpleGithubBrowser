@@ -2,10 +2,13 @@ package pe.hankyu.svmgithubbrowser
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import kotlinx.android.synthetic.main.activity_main.*
+import pe.hankyu.svmgithubbrowser.adapter.UserAdapter
 import pe.hankyu.svmgithubbrowser.model.GithubUserModel
 
 class MainActivity : AppCompatActivity() {
@@ -14,17 +17,24 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        val mLayoutManager = LinearLayoutManager(this)
+        user_recyclerview.layoutManager = mLayoutManager
+
         compositeDisposable = CompositeDisposable()
 
         compositeDisposable.add(GithubApi.getUserList("0")
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribeOn(Schedulers.newThread())
-            .subscribe ({ response: List<GithubUserModel> ->
-                for(item in response) {
-                    Log.d("MainActivity", item.userId.toString() + "," + item.userName + ", " + item.avatarUrl)
-                }
-            }, { error: Throwable ->
-                Log.d("MainActivity", error.localizedMessage)
-        }))
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.newThread())
+                .subscribe ({ response: List<GithubUserModel> ->
+                    val userAdapter = UserAdapter(response)
+                    user_recyclerview.adapter = userAdapter
+                }, { error: Throwable ->
+                    Log.d("MainActivity", error.localizedMessage)
+                }))
     }
 }
