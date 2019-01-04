@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">SVmGithubBrowser</string>
+    <string name="user_photo_description">User Photo</string>
 </resources>
