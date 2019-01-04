@@ -1,6 +1,7 @@
 package pe.hankyu.svmgithubbrowser
 
 import io.reactivex.Observable
+import pe.hankyu.svmgithubbrowser.model.GithubUserModel
 import retrofit2.http.GET
 import retrofit2.http.Query
 
