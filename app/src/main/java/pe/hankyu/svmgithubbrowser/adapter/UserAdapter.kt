@@ -1,6 +1,6 @@
 package pe.hankyu.svmgithubbrowser.adapter
 
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -34,4 +34,5 @@ class UserAdapter(val items: List<GithubUserModel>): RecyclerView.Adapter<Recycl
         val userIdTextView = itemView.findViewById<TextView>(R.id.userId)
         val userNameTextView = itemView.findViewById<TextView>(R.id.userName)
     }
+
 }
