@@ -1,5 +1,6 @@
 package pe.hankyu.svmgithubbrowser.adapter
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +10,7 @@ import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import pe.hankyu.svmgithubbrowser.R
+import pe.hankyu.svmgithubbrowser.UserDetailsActivity
 import pe.hankyu.svmgithubbrowser.model.UserListModel
 
 class UserAdapter(var items: MutableList<UserListModel>): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -30,7 +32,10 @@ class UserAdapter(var items: MutableList<UserListModel>): RecyclerView.Adapter<R
 
         userViewHolder.itemView.setOnClickListener{v ->
             val context = v.context
-            Toast.makeText(context, userViewHolder.userIdTextView.text.toString(), Toast.LENGTH_SHORT).show()
+            val intent = Intent(context, UserDetailsActivity::class.java)
+
+            intent.putExtra("username", userViewHolder.userNameTextView.text.toString())
+            context.startActivity(intent)
         }
     }
 
