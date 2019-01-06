@@ -36,6 +36,19 @@ class UserDetailsPresenterImpl(val view: UserDetailsPresenter.View): UserDetails
                         }))
     }
 
+    override fun loadUserRepos(userName: String, page: Int) {
+        compositeDisposable.add(
+                GithubApi.getUserRepos(userName, page)
+                        .subscribeOn(Schedulers.newThread())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe ({ response: List<UserDetailsModel> ->
+                            view.addItem(response)
+                        }, { error: Throwable ->
+                            Log.d("MainActivity", error.localizedMessage)
+                            view.makeToast("네트워크 연결을 확인하세요.")
+                        }))
+    }
+
     override fun onDestroy() {
         compositeDisposable.dispose()
     }

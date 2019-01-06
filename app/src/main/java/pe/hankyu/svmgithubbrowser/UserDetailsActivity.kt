@@ -16,6 +16,7 @@ import pe.hankyu.svmgithubbrowser.utils.EndlessRecyclerViewScrollListener
 class UserDetailsActivity : AppCompatActivity(), UserDetailsPresenter.View {
     lateinit var detailsLayoutManager: LinearLayoutManager
     lateinit var endlessRecyclerViewScrollListener: EndlessRecyclerViewScrollListener
+    lateinit var nickName: String
     private var detailsAdapter = UserDetailsAdapter(mutableListOf())
 
     private lateinit var detailsPresenter: UserDetailsPresenter
@@ -26,9 +27,19 @@ class UserDetailsActivity : AppCompatActivity(), UserDetailsPresenter.View {
 
         detailsLayoutManager = LinearLayoutManager(this)
 
+        intent.extras?.let {
+            nickName = it.getString("username", "")
+        }
+
+        detailsPresenter = UserDetailsPresenterImpl(this)
+        detailsPresenter.loadUserDetails(nickName)
+        detailsPresenter.loadUserRepos(nickName)
+
         endlessRecyclerViewScrollListener = object: EndlessRecyclerViewScrollListener(detailsLayoutManager) {
             override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView?) {
-
+                if(page != 1) {
+                    detailsPresenter.loadUserRepos(nickName, page)
+                }
             }
         }
 
@@ -38,34 +49,40 @@ class UserDetailsActivity : AppCompatActivity(), UserDetailsPresenter.View {
             setOnScrollListener(endlessRecyclerViewScrollListener)
         }
 
-        var nickName = ""
-        intent.extras?.let {
-            nickName = it.getString("username", "")
-        }
-
-        detailsPresenter = UserDetailsPresenterImpl(this)
-        detailsPresenter.loadUserDetails(nickName)
-        detailsPresenter.loadUserRepos(nickName)
-
         user_details_swipelayout.setOnRefreshListener(this::onRefresh)
     }
 
     private fun onRefresh() {
-        user_details_swipelayout.isRefreshing = false
+        endlessRecyclerViewScrollListener.resetState()
+
+        detailsPresenter.loadUserDetails(nickName)
+        detailsPresenter.loadUserRepos(nickName)
     }
 
-    override fun updateItem(response: UserDetailsModel) {
-        detailsAdapter.items.add(response)
+    override fun updateItem(items: UserDetailsModel) {
+        detailsAdapter.items.add(items)
         user_details_recyclerview.adapter = detailsAdapter
     }
+/*override fun updateItem(items: List<UserDetailsModel>) {
+        detailsAdapter.items.addAll(items)*/
 
-    override fun updateItem(response: List<UserDetailsModel>) {
-        for(item in response) {
+    override fun updateItem(items: List<UserDetailsModel>) {
+        detailsAdapter.items.addAll(items)
+
+        if(user_details_swipelayout.isRefreshing) {
+            user_details_swipelayout.isRefreshing = false
+        }
+        detailsAdapter.notifyDataSetChanged()
+    }
+
+    override fun addItem(items: List<UserDetailsModel>) {
+        for(item in items) {
             Log.d("UserDetailsActivity", item.name + " " + item.description)
         }
+        detailsAdapter.items.addAll(items)
 
-        detailsAdapter.items.addAll(response)
-        detailsAdapter.notifyDataSetChanged()
+        val curSize = detailsAdapter.itemCount
+        detailsAdapter.notifyItemRangeInserted(curSize, items.size)
     }
 
     override fun makeToast(message: String) {

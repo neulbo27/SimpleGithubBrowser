@@ -16,7 +16,10 @@ class GithubApi {
         @GET("/users/{username}?client_id=" + Global.clientId + "&client_secret=" + Global.clientSecret)
         fun getUserDetails(@Path("username") userName: String): Observable<UserDetailsModel>
 
-        @GET("/users/{username}/repos?client_id=" + Global.clientId + "&client_secret=" + Global.clientSecret)
+        @GET("/users/{username}/repos?type=public&client_id=" + Global.clientId + "&client_secret=" + Global.clientSecret)
+        fun getUserRepos(@Path("username") userName: String, @Query("page") page: Int): Observable<List<UserDetailsModel>>
+
+        @GET("/users/{username}/repos?type=public&client_id=" + Global.clientId + "&client_secret=" + Global.clientSecret)
         fun getUserRepos(@Path("username") userName: String): Observable<List<UserDetailsModel>>
     }
 
@@ -31,6 +34,10 @@ class GithubApi {
 
         fun getUserRepos(userName: String): Observable<List<UserDetailsModel>> {
             return RetrofitCreator.create(GithubApiImpl::class.java).getUserRepos(userName)
+        }
+
+        fun getUserRepos(userName: String, page: Int): Observable<List<UserDetailsModel>> {
+            return RetrofitCreator.create(GithubApiImpl::class.java).getUserRepos(userName, page)
         }
     }
 }

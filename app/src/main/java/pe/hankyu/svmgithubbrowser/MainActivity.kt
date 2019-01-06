@@ -71,12 +71,8 @@ class MainActivity : AppCompatActivity(), MainPresenter.View {
 
         userAdapter.items.addAll(items)
 
-        if(user_swipelayout.isRefreshing) {
-            user_swipelayout.isRefreshing = false
-        }
-
         val curSize = userAdapter.itemCount
-        userAdapter.notifyItemRangeInserted(curSize, items.size - 1)
+        userAdapter.notifyItemRangeInserted(curSize, items.size)
     }
 
     override fun makeToast(message: String) {
