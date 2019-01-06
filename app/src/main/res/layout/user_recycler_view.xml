@@ -22,7 +22,7 @@
                 android:layout_width="0dp"
                 android:layout_height="150dp"
                 android:layout_weight="3"
-                android:id="@+id/userPhoto"
+                android:id="@+id/user_photo"
                 android:contentDescription="@string/user_photo_description"
                 android:src="@mipmap/ic_launcher"
             />
@@ -36,13 +36,13 @@
                 android:paddingLeft="10dp">
 
                 <TextView
-                    android:id="@+id/userId"
+                    android:id="@+id/user_id"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     style="@style/TextTheme"/>
 
                 <TextView
-                    android:id="@+id/userName"
+                    android:id="@+id/user_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     style="@style/TextTheme" />

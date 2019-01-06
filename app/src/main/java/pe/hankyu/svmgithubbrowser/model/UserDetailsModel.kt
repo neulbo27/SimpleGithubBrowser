@@ -7,7 +7,7 @@ class UserDetailsModel {
     val avatarUrl: String = ""
 
     @SerializedName("login")
-    val userName: String = ""
+    val nickName: String = ""
 
     @SerializedName("name")
     val name: String = ""

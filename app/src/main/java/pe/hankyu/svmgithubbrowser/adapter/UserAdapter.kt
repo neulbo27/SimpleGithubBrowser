@@ -24,25 +24,27 @@ class UserAdapter(var items: MutableList<UserListModel>): RecyclerView.Adapter<R
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        val userViewHolder = holder as UserViewHolder
+        val viewHolder = holder as UserViewHolder
 
-        userViewHolder.userIdTextView.text = items[position].userId.toString()
-        userViewHolder.userNameTextView.text = items[position].userName
-        Picasso.get().load(items[position].avatarUrl).error(R.drawable.ic_launcher_foreground).into(userViewHolder.photo)
+        viewHolder.run {
+            userIdTextView.text = items[position].userId.toString()
+            userNameTextView.text = items[position].userName
+            Picasso.get().load(items[position].avatarUrl).error(R.drawable.ic_launcher_foreground).into(photo)
+        }
 
-        userViewHolder.itemView.setOnClickListener{v ->
+        viewHolder.itemView.setOnClickListener{v ->
             val context = v.context
             val intent = Intent(context, UserDetailsActivity::class.java)
 
-            intent.putExtra("username", userViewHolder.userNameTextView.text.toString())
+            intent.putExtra("username", viewHolder.userNameTextView.text.toString())
             context.startActivity(intent)
         }
     }
 
     class UserViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
-        val photo = itemView.findViewById<ImageView>(R.id.userPhoto)
-        val userIdTextView = itemView.findViewById<TextView>(R.id.userId)
-        val userNameTextView = itemView.findViewById<TextView>(R.id.userName)
+        val photo = itemView.findViewById<ImageView>(R.id.user_photo)
+        val userIdTextView = itemView.findViewById<TextView>(R.id.user_id)
+        val userNameTextView = itemView.findViewById<TextView>(R.id.user_name)
     }
 
 }

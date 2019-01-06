@@ -6,6 +6,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_main.*
 import pe.hankyu.svmgithubbrowser.adapter.UserAdapter
 import pe.hankyu.svmgithubbrowser.model.UserListModel
@@ -83,5 +84,10 @@ class MainActivity : AppCompatActivity(), MainPresenter.View {
 
     override fun makeToast(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mainPresenter.destroy()
     }
 }
