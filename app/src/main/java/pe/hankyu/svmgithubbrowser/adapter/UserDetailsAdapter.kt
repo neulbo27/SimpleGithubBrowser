@@ -13,7 +13,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class UserDetailsAdapter(var items: MutableList<UserDetailsModel>): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-    val responseDateFormat = SimpleDateFormat("yyyy-MM-ddTHH:mm:ssZ", Locale.KOREA)
+    val responseDateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.KOREA)
     val usingDateFormat = SimpleDateFormat("yyyy.MM.dd HH:mm", Locale.KOREA)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {

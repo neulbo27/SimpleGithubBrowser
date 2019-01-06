@@ -15,6 +15,9 @@ class GithubApi {
 
         @GET("/users/{username}?client_id=" + Global.clientId + "&client_secret=" + Global.clientSecret)
         fun getUserDetails(@Path("username") userName: String): Observable<UserDetailsModel>
+
+        @GET("/users/{username}/repos?client_id=" + Global.clientId + "&client_secret=" + Global.clientSecret)
+        fun getUserRepos(@Path("username") userName: String): Observable<List<UserDetailsModel>>
     }
 
     companion object {
@@ -24,6 +27,10 @@ class GithubApi {
 
         fun getUserDetails(userName: String): Observable<UserDetailsModel> {
             return RetrofitCreator.create(GithubApiImpl::class.java).getUserDetails(userName)
+        }
+
+        fun getUserRepos(userName: String): Observable<List<UserDetailsModel>> {
+            return RetrofitCreator.create(GithubApiImpl::class.java).getUserRepos(userName)
         }
     }
 }

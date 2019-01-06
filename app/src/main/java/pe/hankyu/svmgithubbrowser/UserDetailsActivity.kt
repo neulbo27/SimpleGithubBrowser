@@ -40,14 +40,21 @@ class UserDetailsActivity : AppCompatActivity(), UserDetailsPresenter.View {
         }
 
         detailsPresenter = UserDetailsPresenterImpl(this)
-        detailsPresenter.loadItem(nickName)
+        detailsPresenter.loadUserDetails(nickName)
+        detailsPresenter.loadUserRepos(nickName)
+
+        detailsAdapter.notifyDataSetChanged()
     }
 
     override fun updateItem(response: UserDetailsModel) {
         detailsAdapter.items.add(response)
         user_details_recyclerview.adapter = detailsAdapter
+    }
 
-        detailsAdapter.notifyDataSetChanged()
+    override fun updateItem(response: List<UserDetailsModel>) {
+        for(item in response) {
+            Log.d("UserDetailsActivity", item.name + " " + item.description)
+        }
     }
 
     override fun makeToast(message: String) {

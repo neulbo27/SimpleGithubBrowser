@@ -10,12 +10,25 @@ import pe.hankyu.svmgithubbrowser.model.UserDetailsModel
 class UserDetailsPresenterImpl(val view: UserDetailsPresenter.View): UserDetailsPresenter {
     private val compositeDisposable = CompositeDisposable()
 
-    override fun loadItem(userName: String) {
+    override fun loadUserDetails(userName: String) {
         compositeDisposable.add(
                 GithubApi.getUserDetails(userName)
                         .subscribeOn(Schedulers.newThread())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe ({ response: UserDetailsModel ->
+                            view.updateItem(response)
+                        }, { error: Throwable ->
+                            Log.d("MainActivity", error.localizedMessage)
+                            view.makeToast("네트워크 연결을 확인하세요.")
+                        }))
+    }
+
+    override fun loadUserRepos(userName: String) {
+        compositeDisposable.add(
+                GithubApi.getUserRepos(userName)
+                        .subscribeOn(Schedulers.newThread())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe ({ response: List<UserDetailsModel> ->
                             view.updateItem(response)
                         }, { error: Throwable ->
                             Log.d("MainActivity", error.localizedMessage)
