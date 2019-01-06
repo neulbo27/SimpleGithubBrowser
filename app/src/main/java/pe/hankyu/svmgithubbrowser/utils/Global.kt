@@ -1,4 +1,4 @@
-package pe.hankyu.svmgithubbrowser
+package pe.hankyu.svmgithubbrowser.utils
 
 class Global {
     companion object {

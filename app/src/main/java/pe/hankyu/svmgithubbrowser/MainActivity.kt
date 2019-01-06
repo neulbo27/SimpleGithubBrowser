@@ -11,6 +11,7 @@ import pe.hankyu.svmgithubbrowser.adapter.UserAdapter
 import pe.hankyu.svmgithubbrowser.model.UserListModel
 import pe.hankyu.svmgithubbrowser.presenter.MainPresenter
 import pe.hankyu.svmgithubbrowser.presenter.MainPresenterImpl
+import pe.hankyu.svmgithubbrowser.utils.EndlessRecyclerViewScrollListener
 
 class MainActivity : AppCompatActivity(), MainPresenter.View {
     lateinit var userLayoutManager: LinearLayoutManager

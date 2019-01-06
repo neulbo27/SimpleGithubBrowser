@@ -1,4 +1,4 @@
-package pe.hankyu.svmgithubbrowser;
+package pe.hankyu.svmgithubbrowser.utils;
 
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
