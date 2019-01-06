@@ -10,7 +10,7 @@ import com.squareup.picasso.Picasso
 import pe.hankyu.svmgithubbrowser.R
 import pe.hankyu.svmgithubbrowser.model.UserListModel
 
-class UserAdapter(val items: List<UserListModel>): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class UserAdapter(var items: MutableList<UserListModel>): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.user_recycler_view, parent, false)
         return UserViewHolder(view)

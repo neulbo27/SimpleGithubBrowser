@@ -4,9 +4,11 @@ import pe.hankyu.svmgithubbrowser.model.UserListModel
 
 interface MainPresenter {
     fun loadItem(since: Int)
+    fun loadItem()
 
     interface View {
         fun updateView(items: List<UserListModel>)
         fun makeToast(message: String)
+        fun addView(items: List<UserListModel>)
     }
 }

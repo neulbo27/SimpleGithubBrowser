@@ -7,7 +7,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 class RetrofitCreator {
 
     companion object {
-        val API_ROOT = "https://api.github.com"
+        private const val API_ROOT = "https://api.github.com"
 
         private fun defaultRetrofit(): Retrofit {
             return Retrofit.Builder()

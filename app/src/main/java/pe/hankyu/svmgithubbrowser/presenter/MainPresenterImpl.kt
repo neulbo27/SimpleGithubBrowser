@@ -16,6 +16,21 @@ class MainPresenterImpl(val view: MainPresenter.View): MainPresenter {
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe ({ response: List<UserListModel> ->
+                    view.addView(response)
+                }, { error: Throwable ->
+                    Log.d("MainActivity", error.localizedMessage)
+                    view.makeToast("네트워크 연결을 확인하세요.")
+                }))
+    }
+
+    override fun loadItem() {
+        val compositeDisposable = CompositeDisposable()
+
+        compositeDisposable.add(
+            GithubApi.getUserList("0")
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe ({ response: List<UserListModel> ->
                     view.updateView(response)
                 }, { error: Throwable ->
                     Log.d("MainActivity", error.localizedMessage)

@@ -5,16 +5,17 @@ import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_main.*
 import pe.hankyu.svmgithubbrowser.adapter.UserAdapter
 import pe.hankyu.svmgithubbrowser.model.UserListModel
 import pe.hankyu.svmgithubbrowser.presenter.MainPresenter
 import pe.hankyu.svmgithubbrowser.presenter.MainPresenterImpl
+import java.util.Collections.addAll
 
 class MainActivity : AppCompatActivity(), MainPresenter.View {
     lateinit var userLayoutManager: LinearLayoutManager
-    private lateinit var userAdapter: UserAdapter
-    var lastItemPos: Int = 0
+    private var userAdapter = UserAdapter(mutableListOf())
 
     lateinit var mainPresenter: MainPresenter
 
@@ -26,31 +27,53 @@ class MainActivity : AppCompatActivity(), MainPresenter.View {
         user_recyclerview.run {
             setHasFixedSize(true)
             layoutManager = userLayoutManager
+            setOnScrollListener(object: EndlessRecyclerViewScrollListener(userLayoutManager) {
+                override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView?) {
+                    mainPresenter.loadItem(totalItemsCount)
+                }
+            })
         }
 
         mainPresenter = MainPresenterImpl(this)
 
-        mainPresenter.loadItem(0)
+        mainPresenter.loadItem()
+
         user_swipelayout.setOnRefreshListener(this::onRefresh)
     }
 
     private fun onRefresh() {
-        mainPresenter.loadItem(0)
+        userAdapter = UserAdapter(mutableListOf())
+        mainPresenter.loadItem()
     }
 
     override fun updateView(items: List<UserListModel>) {
-        lastItemPos = items.last().userId
         for(item in items) {
             Log.d("MainActivity", item.userId.toString() + " " + item.userName + " " + item.avatarUrl)
         }
 
-        userAdapter = UserAdapter(items)
+        userAdapter.items.addAll(items)
         user_recyclerview.adapter = userAdapter
-        userAdapter.notifyDataSetChanged()
 
         if(user_swipelayout.isRefreshing) {
             user_swipelayout.isRefreshing = false
         }
+
+        userAdapter.notifyDataSetChanged()
+    }
+
+    override fun addView(items: List<UserListModel>) {
+        for(item in items) {
+            Log.d("MainActivity", item.userId.toString() + " " + item.userName + " " + item.avatarUrl)
+        }
+
+        userAdapter.items.addAll(items)
+
+        if(user_swipelayout.isRefreshing) {
+            user_swipelayout.isRefreshing = false
+        }
+
+        val curSize = userAdapter.itemCount
+        userAdapter.notifyItemRangeInserted(curSize, items.size - 1)
     }
 
     override fun makeToast(message: String) {
