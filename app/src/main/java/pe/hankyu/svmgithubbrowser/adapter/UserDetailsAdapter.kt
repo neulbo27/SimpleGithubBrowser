@@ -67,8 +67,8 @@ class UserDetailsAdapter(var items: MutableList<UserDetailsModel>): RecyclerView
                 viewHolder.run {
                     repoNameTextView.text = items[position].name
                     repoDescriptionTextView.text = items[position].description
-                    repoStarTextView.text = items[position].star.toString()
-                    repoWatcherTextView.text = items[position].watcher.toString()
+                    repoStarTextView.text = String.format("Star : %d", items[position].star)
+                    repoWatcherTextView.text = String.format("Watcher : %d", items[position].watcher)
                     repoCreatedAtTextView.text = formedCreatedAtString
                 }
             }
