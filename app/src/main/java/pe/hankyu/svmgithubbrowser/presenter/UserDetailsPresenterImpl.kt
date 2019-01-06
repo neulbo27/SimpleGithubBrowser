@@ -22,4 +22,8 @@ class UserDetailsPresenterImpl(val view: UserDetailsPresenter.View): UserDetails
                             view.makeToast("네트워크 연결을 확인하세요.")
                         }))
     }
+
+    override fun onDestroy() {
+        compositeDisposable.dispose()
+    }
 }

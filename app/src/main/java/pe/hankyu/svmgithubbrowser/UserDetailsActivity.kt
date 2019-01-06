@@ -41,12 +41,9 @@ class UserDetailsActivity : AppCompatActivity(), UserDetailsPresenter.View {
 
         detailsPresenter = UserDetailsPresenterImpl(this)
         detailsPresenter.loadItem(nickName)
-
-        Toast.makeText(this, intent.extras?.getString("username"), Toast.LENGTH_SHORT).show()
     }
 
     override fun updateItem(response: UserDetailsModel) {
-        Log.d("MainActivity", response.name + " " + response.company + " " + response.followers.toString())
         detailsAdapter.items.add(response)
         user_details_recyclerview.adapter = detailsAdapter
 
@@ -54,6 +51,11 @@ class UserDetailsActivity : AppCompatActivity(), UserDetailsPresenter.View {
     }
 
     override fun makeToast(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        detailsPresenter.onDestroy()
     }
 }

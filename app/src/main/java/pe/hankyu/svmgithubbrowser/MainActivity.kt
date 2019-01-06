@@ -49,10 +49,6 @@ class MainActivity : AppCompatActivity(), MainPresenter.View {
     }
 
     override fun updateView(items: List<UserListModel>) {
-        for(item in items) {
-            Log.d("MainActivity", item.userId.toString() + " " + item.userName + " " + item.avatarUrl)
-        }
-
         lastItemPos = items.last().userId
 
         userAdapter.items.addAll(items)
@@ -66,10 +62,6 @@ class MainActivity : AppCompatActivity(), MainPresenter.View {
     }
 
     override fun addView(items: List<UserListModel>) {
-        for(item in items) {
-            Log.d("MainActivity", item.userId.toString() + " " + item.userName + " " + item.avatarUrl)
-        }
-
         lastItemPos = items.last().userId
 
         userAdapter.items.addAll(items)

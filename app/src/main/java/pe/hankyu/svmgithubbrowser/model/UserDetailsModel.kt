@@ -23,4 +23,16 @@ class UserDetailsModel {
 
     @SerializedName("following")
     val following: Int = 0
+
+    @SerializedName("description")
+    val description: String = ""
+
+    @SerializedName("stargazers_count")
+    val star: Int = 0
+
+    @SerializedName("watchers_count")
+    val watcher: Int = 0
+
+    @SerializedName("created_at")
+    val createdAt: String = ""
 }
