@@ -19,6 +19,7 @@ class MainPresenterImpl(val view: MainPresenter.View): MainPresenter {
                     view.updateView(response)
                 }, { error: Throwable ->
                     Log.d("MainActivity", error.localizedMessage)
+                    view.makeToast("네트워크 연결을 확인하세요.")
                 }))
     }
 }

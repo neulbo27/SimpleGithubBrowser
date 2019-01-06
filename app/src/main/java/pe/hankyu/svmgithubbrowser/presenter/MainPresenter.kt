@@ -7,5 +7,6 @@ interface MainPresenter {
 
     interface View {
         fun updateView(items: List<UserListModel>)
+        fun makeToast(message: String)
     }
 }

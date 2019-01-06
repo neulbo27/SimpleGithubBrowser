@@ -2,6 +2,7 @@ package pe.hankyu.svmgithubbrowser
 
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_main.*
@@ -50,5 +51,9 @@ class MainActivity : AppCompatActivity(), MainPresenter.View {
         if(user_swipelayout.isRefreshing) {
             user_swipelayout.isRefreshing = false
         }
+    }
+
+    override fun makeToast(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 }
