@@ -16,6 +16,7 @@ import pe.hankyu.svmgithubbrowser.utils.EndlessRecyclerViewScrollListener
 
 class MainActivity : AppCompatActivity(), MainPresenter.View {
     lateinit var userLayoutManager: LinearLayoutManager
+    lateinit var endlessRecyclerViewScrollListener: EndlessRecyclerViewScrollListener
     private var userAdapter = UserAdapter(mutableListOf())
     private var lastItemPos = 0
 
@@ -26,14 +27,17 @@ class MainActivity : AppCompatActivity(), MainPresenter.View {
         setContentView(R.layout.activity_main)
 
         userLayoutManager = LinearLayoutManager(this)
+
+        endlessRecyclerViewScrollListener = object: EndlessRecyclerViewScrollListener(userLayoutManager) {
+            override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView?) {
+                mainPresenter.loadItem(lastItemPos)
+            }
+        }
+
         user_recyclerview.run {
             setHasFixedSize(true)
             layoutManager = userLayoutManager
-            setOnScrollListener(object: EndlessRecyclerViewScrollListener(userLayoutManager) {
-                override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView?) {
-                    mainPresenter.loadItem(lastItemPos)
-                }
-            })
+            setOnScrollListener(endlessRecyclerViewScrollListener)
         }
 
         mainPresenter = MainPresenterImpl(this)
@@ -45,6 +49,7 @@ class MainActivity : AppCompatActivity(), MainPresenter.View {
 
     private fun onRefresh() {
         userAdapter = UserAdapter(mutableListOf())
+        endlessRecyclerViewScrollListener.resetState()
         mainPresenter.loadItem()
     }
 

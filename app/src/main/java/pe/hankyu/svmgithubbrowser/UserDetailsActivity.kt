@@ -15,23 +15,27 @@ import pe.hankyu.svmgithubbrowser.utils.EndlessRecyclerViewScrollListener
 
 class UserDetailsActivity : AppCompatActivity(), UserDetailsPresenter.View {
     lateinit var detailsLayoutManager: LinearLayoutManager
+    lateinit var endlessRecyclerViewScrollListener: EndlessRecyclerViewScrollListener
     private var detailsAdapter = UserDetailsAdapter(mutableListOf())
 
-    lateinit var detailsPresenter: UserDetailsPresenter
+    private lateinit var detailsPresenter: UserDetailsPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_user_details)
 
         detailsLayoutManager = LinearLayoutManager(this)
+
+        endlessRecyclerViewScrollListener = object: EndlessRecyclerViewScrollListener(detailsLayoutManager) {
+            override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView?) {
+
+            }
+        }
+
         user_details_recyclerview.run {
             setHasFixedSize(true)
             layoutManager = detailsLayoutManager
-            setOnScrollListener(object: EndlessRecyclerViewScrollListener(detailsLayoutManager) {
-                override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView?) {
-
-                }
-            })
+            setOnScrollListener(endlessRecyclerViewScrollListener)
         }
 
         var nickName = ""
@@ -43,7 +47,11 @@ class UserDetailsActivity : AppCompatActivity(), UserDetailsPresenter.View {
         detailsPresenter.loadUserDetails(nickName)
         detailsPresenter.loadUserRepos(nickName)
 
-        detailsAdapter.notifyDataSetChanged()
+        user_details_swipelayout.setOnRefreshListener(this::onRefresh)
+    }
+
+    private fun onRefresh() {
+        user_details_swipelayout.isRefreshing = false
     }
 
     override fun updateItem(response: UserDetailsModel) {
@@ -55,6 +63,9 @@ class UserDetailsActivity : AppCompatActivity(), UserDetailsPresenter.View {
         for(item in response) {
             Log.d("UserDetailsActivity", item.name + " " + item.description)
         }
+
+        detailsAdapter.items.addAll(response)
+        detailsAdapter.notifyDataSetChanged()
     }
 
     override fun makeToast(message: String) {
