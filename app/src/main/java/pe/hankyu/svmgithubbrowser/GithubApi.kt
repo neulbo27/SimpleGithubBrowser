@@ -18,8 +18,12 @@ class GithubApi {
     }
 
     companion object {
-        fun getUserList(since: String):  Observable<List<UserListModel>> {
+        fun getUserList(since: String): Observable<List<UserListModel>> {
             return RetrofitCreator.create(GithubApiImpl::class.java).getUserList(since)
+        }
+
+        fun getUserDetails(userName: String): Observable<UserDetailsModel> {
+            return RetrofitCreator.create(GithubApiImpl::class.java).getUserDetails(userName)
         }
     }
 }
