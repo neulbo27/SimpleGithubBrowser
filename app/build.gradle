@@ -53,7 +53,4 @@ dependencies {
     //reactive
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'
     implementation 'io.reactivex.rxjava2:rxjava:2.2.5'
-
-    //Paging Library
-    implementation 'com.github.pwittchen:infinitescroll:0.0.2'
 }

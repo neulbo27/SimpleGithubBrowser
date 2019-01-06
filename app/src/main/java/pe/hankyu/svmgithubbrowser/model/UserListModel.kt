@@ -2,9 +2,9 @@ package pe.hankyu.svmgithubbrowser.model
 
 import com.google.gson.annotations.SerializedName
 
-class GithubUserModel {
+class UserListModel {
     @SerializedName("id")
-    val userId: Long = 0
+    val userId: Int = 0
 
     @SerializedName("avatar_url")
     val avatarUrl: String = ""
