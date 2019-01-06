@@ -11,11 +11,11 @@ import pe.hankyu.svmgithubbrowser.adapter.UserAdapter
 import pe.hankyu.svmgithubbrowser.model.UserListModel
 import pe.hankyu.svmgithubbrowser.presenter.MainPresenter
 import pe.hankyu.svmgithubbrowser.presenter.MainPresenterImpl
-import java.util.Collections.addAll
 
 class MainActivity : AppCompatActivity(), MainPresenter.View {
     lateinit var userLayoutManager: LinearLayoutManager
     private var userAdapter = UserAdapter(mutableListOf())
+    private var lastItemPos = 0
 
     lateinit var mainPresenter: MainPresenter
 
@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity(), MainPresenter.View {
             layoutManager = userLayoutManager
             setOnScrollListener(object: EndlessRecyclerViewScrollListener(userLayoutManager) {
                 override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView?) {
-                    mainPresenter.loadItem(totalItemsCount)
+                    mainPresenter.loadItem(lastItemPos)
                 }
             })
         }
@@ -51,6 +51,8 @@ class MainActivity : AppCompatActivity(), MainPresenter.View {
             Log.d("MainActivity", item.userId.toString() + " " + item.userName + " " + item.avatarUrl)
         }
 
+        lastItemPos = items.last().userId
+
         userAdapter.items.addAll(items)
         user_recyclerview.adapter = userAdapter
 
@@ -65,6 +67,8 @@ class MainActivity : AppCompatActivity(), MainPresenter.View {
         for(item in items) {
             Log.d("MainActivity", item.userId.toString() + " " + item.userName + " " + item.avatarUrl)
         }
+
+        lastItemPos = items.last().userId
 
         userAdapter.items.addAll(items)
 

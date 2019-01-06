@@ -1,11 +1,12 @@
 package pe.hankyu.svmgithubbrowser.adapter
 
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
+import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import pe.hankyu.svmgithubbrowser.R
 import pe.hankyu.svmgithubbrowser.model.UserListModel
@@ -26,8 +27,12 @@ class UserAdapter(var items: MutableList<UserListModel>): RecyclerView.Adapter<R
         userViewHolder.userIdTextView.text = items[position].userId.toString()
         userViewHolder.userNameTextView.text = items[position].userName
         Picasso.get().load(items[position].avatarUrl).error(R.drawable.ic_launcher_foreground).into(userViewHolder.photo)
-    }
 
+        userViewHolder.itemView.setOnClickListener{v ->
+            val context = v.context
+            Toast.makeText(context, userViewHolder.userIdTextView.text.toString(), Toast.LENGTH_SHORT).show()
+        }
+    }
 
     class UserViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         val photo = itemView.findViewById<ImageView>(R.id.userPhoto)
