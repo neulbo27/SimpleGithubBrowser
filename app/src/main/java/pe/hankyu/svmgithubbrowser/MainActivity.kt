@@ -1,7 +1,6 @@
 package pe.hankyu.svmgithubbrowser
 
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -11,11 +10,13 @@ import pe.hankyu.svmgithubbrowser.adapter.UserAdapter
 import pe.hankyu.svmgithubbrowser.model.UserListModel
 import pe.hankyu.svmgithubbrowser.presenter.MainPresenter
 import pe.hankyu.svmgithubbrowser.presenter.MainPresenterImpl
-import java.util.Collections.addAll
+import pe.hankyu.svmgithubbrowser.utils.EndlessRecyclerViewScrollListener
 
 class MainActivity : AppCompatActivity(), MainPresenter.View {
     lateinit var userLayoutManager: LinearLayoutManager
+    lateinit var endlessRecyclerViewScrollListener: EndlessRecyclerViewScrollListener
     private var userAdapter = UserAdapter(mutableListOf())
+    private var lastItemPos = 0
 
     lateinit var mainPresenter: MainPresenter
 
@@ -24,14 +25,17 @@ class MainActivity : AppCompatActivity(), MainPresenter.View {
         setContentView(R.layout.activity_main)
 
         userLayoutManager = LinearLayoutManager(this)
+
+        endlessRecyclerViewScrollListener = object: EndlessRecyclerViewScrollListener(userLayoutManager) {
+            override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView?) {
+                mainPresenter.loadItem(lastItemPos)
+            }
+        }
+
         user_recyclerview.run {
             setHasFixedSize(true)
             layoutManager = userLayoutManager
-            setOnScrollListener(object: EndlessRecyclerViewScrollListener(userLayoutManager) {
-                override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView?) {
-                    mainPresenter.loadItem(totalItemsCount)
-                }
-            })
+            setOnScrollListener(endlessRecyclerViewScrollListener)
         }
 
         mainPresenter = MainPresenterImpl(this)
@@ -43,13 +47,12 @@ class MainActivity : AppCompatActivity(), MainPresenter.View {
 
     private fun onRefresh() {
         userAdapter = UserAdapter(mutableListOf())
+        endlessRecyclerViewScrollListener.resetState()
         mainPresenter.loadItem()
     }
 
     override fun updateView(items: List<UserListModel>) {
-        for(item in items) {
-            Log.d("MainActivity", item.userId.toString() + " " + item.userName + " " + item.avatarUrl)
-        }
+        lastItemPos = items.last().userId
 
         userAdapter.items.addAll(items)
         user_recyclerview.adapter = userAdapter
@@ -62,21 +65,20 @@ class MainActivity : AppCompatActivity(), MainPresenter.View {
     }
 
     override fun addView(items: List<UserListModel>) {
-        for(item in items) {
-            Log.d("MainActivity", item.userId.toString() + " " + item.userName + " " + item.avatarUrl)
-        }
+        lastItemPos = items.last().userId
 
         userAdapter.items.addAll(items)
 
-        if(user_swipelayout.isRefreshing) {
-            user_swipelayout.isRefreshing = false
-        }
-
         val curSize = userAdapter.itemCount
-        userAdapter.notifyItemRangeInserted(curSize, items.size - 1)
+        userAdapter.notifyItemRangeInserted(curSize, items.size)
     }
 
     override fun makeToast(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mainPresenter.destroy()
     }
 }

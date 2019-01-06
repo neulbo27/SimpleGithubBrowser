@@ -5,6 +5,7 @@ import pe.hankyu.svmgithubbrowser.model.UserListModel
 interface MainPresenter {
     fun loadItem(since: Int)
     fun loadItem()
+    fun destroy()
 
     interface View {
         fun updateView(items: List<UserListModel>)

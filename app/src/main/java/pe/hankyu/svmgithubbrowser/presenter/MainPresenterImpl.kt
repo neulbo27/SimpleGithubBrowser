@@ -8,9 +8,8 @@ import pe.hankyu.svmgithubbrowser.GithubApi
 import pe.hankyu.svmgithubbrowser.model.UserListModel
 
 class MainPresenterImpl(val view: MainPresenter.View): MainPresenter {
+    private val compositeDisposable = CompositeDisposable()
     override fun loadItem(since: Int) {
-        val compositeDisposable = CompositeDisposable()
-
         compositeDisposable.add(
             GithubApi.getUserList(since.toString())
                 .subscribeOn(Schedulers.newThread())
@@ -19,13 +18,11 @@ class MainPresenterImpl(val view: MainPresenter.View): MainPresenter {
                     view.addView(response)
                 }, { error: Throwable ->
                     Log.d("MainActivity", error.localizedMessage)
-                    view.makeToast("네트워크 연결을 확인하세요.")
+                    view.makeToast("리스트의 끝이거나 다음을 읽어들일 수 없습니다.")
                 }))
     }
 
     override fun loadItem() {
-        val compositeDisposable = CompositeDisposable()
-
         compositeDisposable.add(
             GithubApi.getUserList("0")
                 .subscribeOn(Schedulers.newThread())
@@ -36,5 +33,9 @@ class MainPresenterImpl(val view: MainPresenter.View): MainPresenter {
                     Log.d("MainActivity", error.localizedMessage)
                     view.makeToast("네트워크 연결을 확인하세요.")
                 }))
+    }
+
+    override fun destroy() {
+        compositeDisposable.dispose()
     }
 }
