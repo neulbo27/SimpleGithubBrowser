@@ -1,12 +1,10 @@
 package pe.hankyu.svmgithubbrowser
 
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_main.*
 import pe.hankyu.svmgithubbrowser.adapter.UserAdapter
 import pe.hankyu.svmgithubbrowser.model.UserListModel

@@ -1,9 +1,8 @@
 package pe.hankyu.svmgithubbrowser
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_user_details.*
@@ -63,8 +62,6 @@ class UserDetailsActivity : AppCompatActivity(), UserDetailsPresenter.View {
         detailsAdapter.items.add(items)
         user_details_recyclerview.adapter = detailsAdapter
     }
-/*override fun updateItem(items: List<UserDetailsModel>) {
-        detailsAdapter.items.addAll(items)*/
 
     override fun updateItem(items: List<UserDetailsModel>) {
         detailsAdapter.items.addAll(items)
@@ -76,9 +73,6 @@ class UserDetailsActivity : AppCompatActivity(), UserDetailsPresenter.View {
     }
 
     override fun addItem(items: List<UserDetailsModel>) {
-        for(item in items) {
-            Log.d("UserDetailsActivity", item.name + " " + item.description)
-        }
         detailsAdapter.items.addAll(items)
 
         val curSize = detailsAdapter.itemCount
