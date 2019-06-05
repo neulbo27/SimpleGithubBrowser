@@ -1,4 +1,4 @@
-package pe.hankyu.svmgithubbrowser
+package pe.hankyu.svmgithubbrowser.utils
 
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory

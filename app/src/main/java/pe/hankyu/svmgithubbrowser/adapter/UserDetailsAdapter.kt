@@ -8,7 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import pe.hankyu.svmgithubbrowser.R
-import pe.hankyu.svmgithubbrowser.model.UserDetailsModel
+import pe.hankyu.svmgithubbrowser.repo.model.UserDetailsModel
 import java.text.SimpleDateFormat
 import java.util.*
 

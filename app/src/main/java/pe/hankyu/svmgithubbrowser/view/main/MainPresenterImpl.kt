@@ -1,13 +1,14 @@
-package pe.hankyu.svmgithubbrowser.presenter
+package pe.hankyu.svmgithubbrowser.view.main
 
 import android.util.Log
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import pe.hankyu.svmgithubbrowser.GithubApi
-import pe.hankyu.svmgithubbrowser.model.UserListModel
+import pe.hankyu.svmgithubbrowser.repo.GithubApi
+import pe.hankyu.svmgithubbrowser.repo.model.UserListModel
 
-class MainPresenterImpl(val view: MainPresenter.View): MainPresenter {
+class MainPresenterImpl(val view: MainPresenter.View):
+    MainPresenter {
     private val compositeDisposable = CompositeDisposable()
     override fun loadItem(since: Int) {
         compositeDisposable.add(

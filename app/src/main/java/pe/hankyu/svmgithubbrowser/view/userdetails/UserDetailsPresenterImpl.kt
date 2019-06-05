@@ -1,13 +1,14 @@
-package pe.hankyu.svmgithubbrowser.presenter
+package pe.hankyu.svmgithubbrowser.view.userdetails
 
 import android.util.Log
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import pe.hankyu.svmgithubbrowser.GithubApi
-import pe.hankyu.svmgithubbrowser.model.UserDetailsModel
+import pe.hankyu.svmgithubbrowser.repo.GithubApi
+import pe.hankyu.svmgithubbrowser.repo.model.UserDetailsModel
 
-class UserDetailsPresenterImpl(val view: UserDetailsPresenter.View): UserDetailsPresenter {
+class UserDetailsPresenterImpl(val view: UserDetailsPresenter.View):
+    UserDetailsPresenter {
     private val compositeDisposable = CompositeDisposable()
 
     override fun loadUserDetails(userName: String) {

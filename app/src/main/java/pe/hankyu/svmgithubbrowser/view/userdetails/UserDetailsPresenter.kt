@@ -1,6 +1,6 @@
-package pe.hankyu.svmgithubbrowser.presenter
+package pe.hankyu.svmgithubbrowser.view.userdetails
 
-import pe.hankyu.svmgithubbrowser.model.UserDetailsModel
+import pe.hankyu.svmgithubbrowser.repo.model.UserDetailsModel
 
 interface UserDetailsPresenter {
     fun loadUserDetails(userName: String)

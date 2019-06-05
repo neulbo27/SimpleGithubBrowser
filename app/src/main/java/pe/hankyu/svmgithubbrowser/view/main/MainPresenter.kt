@@ -1,6 +1,6 @@
-package pe.hankyu.svmgithubbrowser.presenter
+package pe.hankyu.svmgithubbrowser.view.main
 
-import pe.hankyu.svmgithubbrowser.model.UserListModel
+import pe.hankyu.svmgithubbrowser.repo.model.UserListModel
 
 interface MainPresenter {
     fun loadItem(since: Int)

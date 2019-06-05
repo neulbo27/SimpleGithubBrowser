@@ -9,8 +9,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import pe.hankyu.svmgithubbrowser.R
-import pe.hankyu.svmgithubbrowser.UserDetailsActivity
-import pe.hankyu.svmgithubbrowser.model.UserListModel
+import pe.hankyu.svmgithubbrowser.view.userdetails.UserDetailsActivity
+import pe.hankyu.svmgithubbrowser.repo.model.UserListModel
 
 class UserAdapter(var items: MutableList<UserListModel>): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {

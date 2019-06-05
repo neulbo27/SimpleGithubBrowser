@@ -1,4 +1,4 @@
-package pe.hankyu.svmgithubbrowser
+package pe.hankyu.svmgithubbrowser.view.main
 
 import android.os.Bundle
 import android.widget.Toast
@@ -6,10 +6,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_main.*
+import pe.hankyu.svmgithubbrowser.R
 import pe.hankyu.svmgithubbrowser.adapter.UserAdapter
-import pe.hankyu.svmgithubbrowser.model.UserListModel
-import pe.hankyu.svmgithubbrowser.presenter.MainPresenter
-import pe.hankyu.svmgithubbrowser.presenter.MainPresenterImpl
+import pe.hankyu.svmgithubbrowser.repo.model.UserListModel
 import pe.hankyu.svmgithubbrowser.utils.EndlessRecyclerViewScrollListener
 
 class MainActivity : AppCompatActivity(), MainPresenter.View {

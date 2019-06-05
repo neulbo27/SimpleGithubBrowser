@@ -1,8 +1,9 @@
-package pe.hankyu.svmgithubbrowser
+package pe.hankyu.svmgithubbrowser.repo
 
 import io.reactivex.Observable
-import pe.hankyu.svmgithubbrowser.model.UserDetailsModel
-import pe.hankyu.svmgithubbrowser.model.UserListModel
+import pe.hankyu.svmgithubbrowser.utils.RetrofitCreator
+import pe.hankyu.svmgithubbrowser.repo.model.UserDetailsModel
+import pe.hankyu.svmgithubbrowser.repo.model.UserListModel
 import pe.hankyu.svmgithubbrowser.utils.Global
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -25,19 +26,23 @@ class GithubApi {
 
     companion object {
         fun getUserList(since: String): Observable<List<UserListModel>> {
-            return RetrofitCreator.create(GithubApiImpl::class.java).getUserList(since)
+            return RetrofitCreator.create(GithubApiImpl::class.java)
+                .getUserList(since)
         }
 
         fun getUserDetails(userName: String): Observable<UserDetailsModel> {
-            return RetrofitCreator.create(GithubApiImpl::class.java).getUserDetails(userName)
+            return RetrofitCreator.create(GithubApiImpl::class.java)
+                .getUserDetails(userName)
         }
 
         fun getUserRepos(userName: String): Observable<List<UserDetailsModel>> {
-            return RetrofitCreator.create(GithubApiImpl::class.java).getUserRepos(userName)
+            return RetrofitCreator.create(GithubApiImpl::class.java)
+                .getUserRepos(userName)
         }
 
         fun getUserRepos(userName: String, page: Int): Observable<List<UserDetailsModel>> {
-            return RetrofitCreator.create(GithubApiImpl::class.java).getUserRepos(userName, page)
+            return RetrofitCreator.create(GithubApiImpl::class.java)
+                .getUserRepos(userName, page)
         }
     }
 }

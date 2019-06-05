@@ -1,4 +1,4 @@
-package pe.hankyu.svmgithubbrowser.model
+package pe.hankyu.svmgithubbrowser.repo.model
 
 import com.google.gson.annotations.SerializedName
 
